@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CrediCheck</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="api_client.js"></script>
+  <script src="popup.js"></script>
+  <style>
+      .container {
+          width: 500px;;
+          padding-left: 0;
+          padding-right: 0;
+      }
+
+      #status-message {
+          color: #dc3545;
+          font-size: 0.9rem;
+          min-height: 20px;
+      }
+
+      .btn.active {
+          border: 3px solid #000;
+          font-weight: bold;
+      }
+
+      #star-rating {
+          cursor: help;
+      }
+
+      #vote-bar {
+          cursor: help;
+          transition: all 0.3s ease;
+      }
+
+      #vote-bar:hover {
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .domain-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+  </style>
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+  <h2 class="text-center">CrediCheck</h2>
+
+  <p class="fs-6 text-center">
+    This is a community-based credibility voting system.<br> Please take the ratings with a
+    grain of salt and always be critical of the media you consume.
+  </p>
+
+  <div class="card">
+
+    <div class="card-body text-center">
+
+      <div class="mb-3">
+        <div class="border p-3 domain-info">
+          <span id="domain-name"><strong>Loading...</strong></span>
+          <div class="d-flex" id="star-rating" title="Credibility Score">
+            <!-- Stars will be added by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="border p-2">
+          <div class="mb-2">Community Ratings: <span id="num-ratings">-</span></div>
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="progress w-100" id="vote-bar" style="height: 20px;" title="Loading vote counts...">
+              <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress-bar bg-success"
+                   id="upvote-ratio" role="progressbar" style="width: 50%;"></div>
+              <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress-bar bg-danger"
+                   id="downvote-ratio" role="progressbar" style="width: 50%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="status-message"></div>
+
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-success w-100" id="credible-btn">Credible</button>
+        <button class="btn btn-danger w-100" id="not-credible-btn">Not Credible</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+
+</html>

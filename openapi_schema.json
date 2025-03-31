@@ -1,0 +1,416 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CrediCheck",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/score": {
+      "get": {
+        "tags": [
+          "Public API"
+        ],
+        "summary": "Get Credibility Rating",
+        "description": "Returns the central credibility rating for a given domain",
+        "operationId": "get_credibility_rating_score_get",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2083,
+              "title": "Site"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APICredibilityScore"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "get": {
+        "tags": [
+          "Public API"
+        ],
+        "summary": "Get Community Rating",
+        "description": "Returns the aggregate community rating for a given domain.",
+        "operationId": "get_community_rating_ratings_get",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2083,
+              "title": "Site"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIRatingSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Public API"
+        ],
+        "summary": "Cast User Vote",
+        "description": "Casts a personal vote on a given domain.\nA value of 0 removes any existing vote.",
+        "operationId": "cast_user_vote_ratings_put",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2083,
+              "title": "Site"
+            }
+          },
+          {
+            "name": "vote",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "maximum": 1,
+              "minimum": -1,
+              "title": "Vote"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New vote recorded"
+          },
+          "204": {
+            "description": "Already voted; no changes made"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Public API"
+        ],
+        "summary": "Remove User Vote",
+        "description": "Removes a personal vote on a given domain.",
+        "operationId": "remove_user_vote_ratings_delete",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2083,
+              "title": "Site"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote removed"
+          },
+          "204": {
+            "description": "No vote to remove"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/my/all": {
+      "get": {
+        "tags": [
+          "Public API"
+        ],
+        "summary": "Get User Votes",
+        "description": "Returns all votes cast by request sender.",
+        "operationId": "get_user_votes_ratings_my_all_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/APIUserVote"
+                  },
+                  "type": "array",
+                  "title": "Response Get User Votes Ratings My All Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/my": {
+      "get": {
+        "tags": [
+          "Public API"
+        ],
+        "summary": "Get User Vote For",
+        "description": "Returns the vote cast by request sender for a given domain.",
+        "operationId": "get_user_vote_for_ratings_my_get",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2083,
+              "title": "Site"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "maximum": 1,
+                  "minimum": -1,
+                  "title": "Response Get User Vote For Ratings My Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/all": {
+      "get": {
+        "tags": [
+          "Testing API"
+        ],
+        "summary": "Get All Ratings",
+        "description": "Returns all ratings in the database.",
+        "operationId": "get_all_ratings_ratings_all_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/APIRatingSummary"
+                  },
+                  "type": "array",
+                  "title": "Response Get All Ratings Ratings All Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APICredibilityScore": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site"
+        ],
+        "title": "APICredibilityScore",
+        "description": "Model of a centralized rating"
+      },
+      "APIRatingSummary": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "up_votes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Up Votes",
+            "default": 0
+          },
+          "down_votes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Down Votes",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "site"
+        ],
+        "title": "APIRatingSummary",
+        "description": "Model of a pair of aggregate vote counts"
+      },
+      "APIUserVote": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "value": {
+            "type": "integer",
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site",
+          "value"
+        ],
+        "title": "APIUserVote",
+        "description": "Model of a singular user-casted vote"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
